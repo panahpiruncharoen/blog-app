@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create post</title>
+</head>
+
+<body>
+	<h1>Create Post</h1>
+		
+	<form action="/posts" method="POST">
+		<input type="text" name="title" placeholder="Title"><br>
+		<select name="author" id="author">
+			<% users.forEach((u) => { %>
+				<option value="<%= u.id %>"><%= u.firstName + " " + u.lastName %></option>
+			<% }) %>
+  		</select><br>
+		<textarea name="text" placeholder="Post text.."></textarea><br>
+		<button type="submit">Submit</button>
+		<button type="reset">Reset</button>
+	</form>
+
+	<%- include('../partials/footer.ejs') %>

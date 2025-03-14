@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangkok post</title>
+</head>
+
+<body>
+	<h1>Bangkok Post</h1>
+	
+	<h3><%= post.title%></h3>
+	<p>Author: <%= post.author.firstName + " " + post.author.lastName %></p>
+	<p><%= post.text%></p>
+	
+	<a href="/posts/<%= post.id%>/edit">Edit</a>
+	<form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
+		<button type="submit">Delete</button>
+	</form>
+	
+	<h3>Comments (<%= comments.length %>)</h3>
+	
+	<% if (comments.length === 0) { %>
+		<p>No comments yets</p>
+	<% } else { %>
+		 <% comments.forEach((c) => { %>
+			<p><%= c.text %> - <%= c.author.firstName + " " + c.author.lastName %></p>
+			<form action="/comments/<%= c.id %>?_method=DELETE" method="POST">
+				<button type="submit">Delete</button>
+			</form>
+			<hr>
+		<% }) %>
+	<% } %>
+	
+	<form action="/posts/<%= post.id %>/comments" method="POST">
+		<select name="author" id="author">
+			<% users.forEach((u) => { %>
+				<option value="<%= u.id %>"><%= u.firstName + " " + u.lastName %></option>
+			<% }) %>
+  		</select><br>
+		<textarea name="text" placeholder="Comment text..."></textarea><br>
+		<button type="submit">Submit</button>
+		<button type="reset">Reset</button>
+	</form>
+	
+	<%- include('../partials/footer.ejs') %>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangkok post</title>
+</head>
+
+<body>
+	<h1>Bangkok Post</h1>
+	
+	<a href="/posts/new">New Post</a><br>
+	
+	<% posts.forEach((p) => { %>
+	
+		<a href="/posts/<%= p.id %>"><%= p.title %></a><br>
+	<% }) %>
+	
+	<%- include('../partials/footer.ejs') %>
