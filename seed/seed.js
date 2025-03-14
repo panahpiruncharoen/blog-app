@@ -53,7 +53,7 @@ const seedDB = async () => {
 			text: faker.lorem.paragraphs(),
 		})
 
-		for (let i = 0; i <3; i++) {
+		for (let i = 0; i <5; i++) {
 			await Comment.create({
 				postId: post.id,
 				author: users[Math.floor(Math.random() * users.length)],
