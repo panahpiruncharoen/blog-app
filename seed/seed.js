@@ -46,7 +46,7 @@ const seedDB = async () => {
 	users.push(user)
 	console.log(user)
 		
-	for (let i = 0; i <5; i++) {
+	for (let i = 0; i <10; i++) {
 		const post = await Post.create({
 			title: faker.book.title(),
 			author: users[Math.floor(Math.random() * users.length)],
