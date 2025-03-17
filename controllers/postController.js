@@ -30,6 +30,7 @@ exports.createNewPost = async (req,res) => {
 		title: title,
 		text: text,
 		author: author,
+		numLikes: 0,
 	})
 	
 	res.redirect("/")
