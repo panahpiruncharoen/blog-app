@@ -51,6 +51,7 @@ const seedDB = async () => {
 			title: faker.book.title(),
 			author: users[Math.floor(Math.random() * users.length)],
 			text: faker.lorem.paragraphs(),
+			numLikes: Math.floor(Math.random() * 100),
 		})
 
 		for (let i = 0; i <5; i++) {
