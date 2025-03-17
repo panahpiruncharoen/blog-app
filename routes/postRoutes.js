@@ -27,4 +27,7 @@ router.delete("/:postId", postController.deleteOnePost)
 //CREATE - creates a new comments
 router.post("/:postId/comments", postController.createComment)
 
+// UPDATE - updates likes on post
+router.patch("/:postId/likes", postController.updateNumLikes)
+
 module.exports = router

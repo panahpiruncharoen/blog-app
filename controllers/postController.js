@@ -77,3 +77,14 @@ exports.createComment = async (req,res) => {
 	
 	res.redirect(`/posts/${postId}`)
  }
+
+exports.updateNumLikes = async (req, res) => {
+	const postId = req.params.postId
+	
+	await Post.findByIdAndUpdate(
+		postId,
+		{$inc: { numLikes: 1 }}
+	)
+	
+	res.redirect(`/posts/${postId}`)
+}

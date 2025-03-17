@@ -20,6 +20,8 @@
 	</form>
 	
 	<p>Likes : <%=post.numLikes %></p>
+	<form action="/posts/<%= post.id %>/likes?_method=PATCH" method="POST">
+		<button type="submit">I Like this</button>
 	<h3>Comments (<%= comments.length %>)</h3>
 	
 	<% if (comments.length === 0) { %>
