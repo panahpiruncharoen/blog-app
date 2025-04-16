@@ -10,6 +10,8 @@
 <body>
 	<h1>Bangkok Post | My Profile</h1>
 	
+	<h3>My Information</h3>
+	
 	<form action="/profile?_method=PATCH" method="POST">
 	  <p>Username</p>
 	  <input type="text" name="username" value="<%= user.username %>">
@@ -21,4 +23,18 @@
 	  <input type="text" name="email" value="<%= user.email %>">
 	  <button type="submit">Update Profile</button>
 	</form>
+	
+	<hr>
+	
+	<h3>My posts</h3>
+	
+	<% if (userPosts.length === 0) { %>
+	   <p>You haven't made any posts yet</p>
+	<% } %>
+	
+	<% userPosts.forEach((p) => { %>
+		<a href="/posts/<%= p.id %>"><%= p.title %></a>
+	<% }) %>
+	<hr>
+	
 	<%- include('../partials/footer.ejs') %>

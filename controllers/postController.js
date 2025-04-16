@@ -19,8 +19,7 @@ exports.getOnePost = async (req, res) => {
 	const postId = req.params.postId
 	const post = await Post.findById(postId).populate("author", "firstName lastName")
 	const comments = await Comment.find({ postId }).populate("author", "firstName lastName")
-	const users = await User.find({})
-	res.render("posts/show", { post, comments, users })
+	res.render("posts/show", { post, comments })
 }
 
 exports.createNewPost = async (req,res) => {

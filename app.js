@@ -14,6 +14,7 @@ const userRoutes = require('./routes/userRoutes')
 const authRoutes = require('./routes/authRoutes')
 
 const User = require("./models/User")
+const Post = require("./models/Post")
 // const userRoutes = require('routes/userRoutes')
 
 const app = express()
@@ -48,12 +49,14 @@ app.use("/comments", commentRoutes)
 app.use("/users", userRoutes)
 app.use("/auth", authRoutes)
 
-app.get("/profile", (req, res) => {
+app.get("/profile", async(req, res) => {
 	if (!req.user) {
 	  res.send("You are not logged in")
 	}
 	
-	res.render("profile/profile")
+	const userPosts =  await Post.find({ author: req.user })
+	console.log(userPosts)
+	res.render("profile/profile", { userPosts })
 })
 
 app.patch("/profile", async (req, res) => {
