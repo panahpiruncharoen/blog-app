@@ -12,7 +12,7 @@
 	
 	<hr>
 	<% if (user) { %>
-		<p><%= user.username %> | <a href="/profile">My Profile</a></p>
+		<p><%= user.username %> | <a href="/users/profile">My Profile</a></p>
 		<a href="/auth/logout">Sign out</a>
 	<% } else { %>
 		<p>Your are not signed in</p>
