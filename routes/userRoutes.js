@@ -11,7 +11,7 @@ router.get("/profile", async(req, res) => {
 	
 	const userPosts =  await Post.find({ author: req.user })
 	console.log(userPosts)
-	res.render("profile/profile", { userPosts })
+	res.render("users/profile", { userPosts })
 })
 
 router.patch("/profile", async (req, res) => {
