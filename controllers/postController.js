@@ -49,12 +49,11 @@ exports.getEditPostForm = async (req, res) => {
 exports.updatePost = async (req, res) => {
 	const postId = req.params.postId
 	const newTitle = req.body.title
-	const newAuthor = req.body.author
 	const newText = req.body.text
 	
 	await Post.findByIdAndUpdate(
 		postId,
-		{$set: {title: newTitle, author: newAuthor, text: newText}}
+		{$set: {title: newTitle, text: newText}}
 	)
 	
 	res.redirect(`/posts/${postId}`)
