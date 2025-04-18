@@ -21,8 +21,11 @@ router.get("/:postId/edit", postController.getEditPostForm)
 // UPDATE - updates one post
 router.patch("/:postId", postController.updatePost)
 
-// DELETE = delete one post
-router.delete("/:postId", postController.deleteOnePost)
+// DELETE MANY = delete many post
+router.delete("/deleteMany", postController.deleteManyPosts)
+
+// DELETE MANY = delete many post
+router.delete("/deleteMany", postController.deleteManyPosts)
 
 //CREATE - creates a new comments
 router.post("/:postId/comments", postController.createComment)

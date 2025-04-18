@@ -30,7 +30,16 @@
 	
 	<% if (userPosts.length === 0) { %>
 	   <p>You haven't made any posts yet</p>
-	<% } %>
+	<% } else { %>
+	  <form action="/posts/deleteMany?_method=DELETE" method="POST">
+	    <% userPosts.forEach((p) => { %>
+		  <input type="checkbox" id ="postId" name="posts" value="<%= p.id %>">
+		  <label for="postId"><a href="/posts/<%= p.id %>"><%= p.title %></a></label>
+		  <br>
+	    <% }) %>
+		<button type="submit">Delete Selected</button>
+	  </form>
+    <% } %>
 	
 	<% userPosts.forEach((p) => { %>
 		<a href="/posts/<%= p.id %>"><%= p.title %></a>

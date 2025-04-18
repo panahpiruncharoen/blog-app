@@ -67,6 +67,17 @@ exports.deleteOnePost = async (req, res) => {
 	res.redirect("/posts")
 }
 
+exports.deleteManyPosts = async (req, res) => {
+	const posts = req.body.posts
+	console.log(posts)
+	await posts.forEach(async(postId) => {
+	  await Comment.deleteMany({ postId })
+	  await Post.findByIdAndDelete(postId) 
+	})
+	res.redirect("/users/profile")
+}
+
+
 exports.createComment = async (req,res) => {
 	const postId = req.params.postId
 	const author = req.user.id
