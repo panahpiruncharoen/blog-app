@@ -23,9 +23,14 @@ router.patch("/:postId", postController.updatePost)
 
 // DELETE MANY = delete many post
 router.delete("/deleteMany", postController.deleteManyPosts)
+// HANDLE PUBLISHED POSTS
+router.post("/handlePublishedPosts", postController.handlePublishedPosts)
 
-// DELETE MANY = delete many post
-router.delete("/deleteMany", postController.deleteManyPosts)
+// HANDLE DRAFT POSTS
+router.post("/handleDraftPosts", postController.handleDraftPosts)
+
+// DELETE = delete one post
+router.delete("/:postId", postController.deleteOnePost)
 
 //CREATE - creates a new comments
 router.post("/:postId/comments", postController.createComment)

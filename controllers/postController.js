@@ -3,7 +3,7 @@ const Comment = require('../models/Comment')
 const User = require('../models/User')
 
 exports.getAllPosts = async (req, res) => {
-	const posts = await Post.find({})
+	const posts = await Post.find({ isPublished : true })
 	res.render("posts/index", { posts})
 }
 
@@ -23,17 +23,24 @@ exports.getOnePost = async (req, res) => {
 }
 
 exports.createNewPost = async (req,res) => {
-	console.log(req.user)
+	console.log(req.body)
 	const title = req.body.title
 	const author = req.user.id
 	const text = req.body.text
+	const isPublished = req.body.action === "publish" ? true : false
 	
 	
+	// if (req.body.action === "publish") {
+	//    isPublished = true
+	// } else {
+	//    isPublished = false
+	// }
 	const newPost = await Post.create({
 		title: title,
 		text: text,
 		author: author,
 		numLikes: 0,
+		isPublished: isPublished
 	})
 	
 	res.redirect("/")
@@ -76,6 +83,55 @@ exports.deleteManyPosts = async (req, res) => {
 	res.redirect("/users/profile")
 }
 
+exports.handlePublishedPosts = async (req, res) => {
+	let posts = req.body.posts
+	if (!Array.isArray(posts)) {
+		posts = [ posts ]
+	}
+		
+	const action = req.body.action
+	console.log(action, posts)
+	
+	if(action === "delete") {
+	  await posts.forEach(async(postId) => {
+	  await Comment.deleteMany({ postId })
+	  await Post.findByIdAndDelete(postId) 
+	  })
+	} else {
+	  await posts.forEach(async(postId) => {
+	  	await Post.findByIdAndUpdate(
+		postId,
+		{$set: { isPublished : false }}
+		)	
+	  })
+	}		
+	res.redirect("/users/profile")
+}
+
+exports.handleDraftPosts = async (req, res) => {
+	let posts = req.body.posts
+	if (!Array.isArray(posts)) {
+		posts = [ posts ]
+	}
+		
+	const action = req.body.action
+	console.log(action, posts)
+	
+	if(action === "delete") {
+	  await posts.forEach(async(postId) => {
+	  await Comment.deleteMany({ postId })
+	  await Post.findByIdAndDelete(postId) 
+	  })
+	} else {
+	  await posts.forEach(async(postId) => {
+	  	await Post.findByIdAndUpdate(
+		postId,
+		{$set: { isPublished : true }}
+		)	
+	  })
+	}		
+	res.redirect("/users/profile")
+}
 
 exports.createComment = async (req,res) => {
 	const postId = req.params.postId

@@ -28,22 +28,35 @@
 	
 	<h3>My posts</h3>
 	
-	<% if (userPosts.length === 0) { %>
-	   <p>You haven't made any posts yet</p>
+	<h4>Published Posts</h4>
+	<% if (publishedPosts.length === 0) { %>
+	   <p>You haven't published any posts yet</p>
 	<% } else { %>
-	  <form action="/posts/deleteMany?_method=DELETE" method="POST">
-	    <% userPosts.forEach((p) => { %>
+	  <form action="/posts/handlePublishedPosts" method="POST">
+	    <% publishedPosts.forEach((p) => { %>
 		  <input type="checkbox" id ="postId" name="posts" value="<%= p.id %>">
 		  <label for="postId"><a href="/posts/<%= p.id %>"><%= p.title %></a></label>
 		  <br>
 	    <% }) %>
-		<button type="submit">Delete Selected</button>
+		<button type="submit" name="action" value="unpublish">unpublish Selected</button>
+		<button type="submit" name="action" value="delete">Delete Selected</button>
 	  </form>
     <% } %>
 	
-	<% userPosts.forEach((p) => { %>
-		<a href="/posts/<%= p.id %>"><%= p.title %></a>
-	<% }) %>
 	<hr>
 	
+	<h4>Draft</h4>
+	<% if (draftPosts.length === 0) { %>
+	   <p>You don't have any draft yet...</p>
+	<% } else { %>
+	  <form action="/posts/handleDraftPosts" method="POST">
+	    <% draftPosts.forEach((p) => { %>
+		  <input type="checkbox" id ="postId" name="posts" value="<%= p.id %>">
+		  <label for="postId"><a href="/posts/<%= p.id %>"><%= p.title %></a></label>
+		  <br>
+	    <% }) %>
+		<button type="submit" name="action" value="publish">Publish Selected</button>
+		<button type="submit" name="action" value="delete">Delete Selected</button>
+	  </form>
+    <% } %>
 	<%- include('../partials/footer.ejs') %>
