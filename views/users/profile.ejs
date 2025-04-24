@@ -32,7 +32,7 @@
 	<% if (publishedPosts.length === 0) { %>
 	   <p>You haven't published any posts yet</p>
 	<% } else { %>
-	  <form action="/posts/handlePublishedPosts" method="POST">
+	  <form action="/posts/managePosts" method="POST">
 	    <% publishedPosts.forEach((p) => { %>
 		  <input type="checkbox" id ="postId" name="posts" value="<%= p.id %>">
 		  <label for="postId"><a href="/posts/<%= p.id %>"><%= p.title %></a></label>
@@ -49,7 +49,7 @@
 	<% if (draftPosts.length === 0) { %>
 	   <p>You don't have any draft yet...</p>
 	<% } else { %>
-	  <form action="/posts/handleDraftPosts" method="POST">
+	  <form action="/posts/managePosts" method="POST">
 	    <% draftPosts.forEach((p) => { %>
 		  <input type="checkbox" id ="postId" name="posts" value="<%= p.id %>">
 		  <label for="postId"><a href="/posts/<%= p.id %>"><%= p.title %></a></label>

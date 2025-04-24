@@ -93,7 +93,7 @@ exports.deleteManyPosts = async (req, res) => {
 	res.redirect("/users/profile")
 }
 
-exports.handlePublishedPosts = async (req, res) => {
+exports.managePosts = async (req, res) => {
 	let posts = req.body.posts
 	if (!Array.isArray(posts)) {
 		posts = [ posts ]
@@ -107,39 +107,22 @@ exports.handlePublishedPosts = async (req, res) => {
 	  await Comment.deleteMany({ postId })
 	  await Post.findByIdAndDelete(postId) 
 	  })
-	} else {
-	  await posts.forEach(async(postId) => {
-	  	await Post.findByIdAndUpdate(
-		postId,
-		{$set: { isPublished : false }}
-		)	
-	  })
-	}		
-	res.redirect("/users/profile")
-}
-
-exports.handleDraftPosts = async (req, res) => {
-	let posts = req.body.posts
-	if (!Array.isArray(posts)) {
-		posts = [ posts ]
-	}
-		
-	const action = req.body.action
-	console.log(action, posts)
-	
-	if(action === "delete") {
-	  await posts.forEach(async(postId) => {
-	  await Comment.deleteMany({ postId })
-	  await Post.findByIdAndDelete(postId) 
-	  })
-	} else {
+	} else if (action === "publish") {
 	  await posts.forEach(async(postId) => {
 	  	await Post.findByIdAndUpdate(
 		postId,
 		{$set: { isPublished : true }}
 		)	
 	  })
-	}		
+	} else if (action === "unpublish") {
+	  await posts.forEach(async(postId) => {
+	  	await Post.findByIdAndUpdate(
+		postId,
+		{$set: { isPublished : false }}
+		)	
+	  })
+	}				
+	
 	res.redirect("/users/profile")
 }
 
