@@ -17,8 +17,10 @@
 	<% if (user && post.author.id === user.id) { %>
 		<a href="/posts/<%= post.id%>/edit">Edit</a>
 
-		<form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
-			<button type="submit">Delete</button>
+		<form action="/posts/managePosts" method="POST">
+			<input type="hidden" name="posts" value="<%= post.id%>">
+			<input type="hidden" name="destination" value="/posts">
+			<button type="submit" name="action" value="delete">Delete</button>
 		</form>
 	<%  } %>
 	<p>Likes : <%=post.numLikes %></p>
