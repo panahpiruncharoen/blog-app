@@ -11,23 +11,35 @@
 	<h1>Bangkok Post</h1>
 	
 	<h3><%= post.title%></h3>
+	 
+	<% if(post.isDeleted === true) { %>
+	<form action="/posts/managePosts" method="POST">
+	  <p>This post has been deleted!</p>
+	  <input type="hidden" name="posts" value="<%= post.id%>">
+	  <input type="hidden" name="destination" value="/posts/<%= post.id %>">
+	  <button type="submit" name="action" value="restore">Restore</button>
+	</form>
+	<% } %>
+	
 	<p>Author: <%= post.author.firstName + " " + post.author.lastName %></p>
 	<p><%= post.text%></p>
 	
-	<% if (user && post.author.id === user.id) { %>
+	<% if (user && post.author.id === user.id && post.isDeleted === false) { %>
 		<a href="/posts/<%= post.id%>/edit">Edit</a>
 
 		<form action="/posts/managePosts" method="POST">
 			<input type="hidden" name="posts" value="<%= post.id%>">
-			<input type="hidden" name="destination" value="/posts">
+			<input type="hidden" name="destination" value="/posts/<%= post.id%>">
 			<button type="submit" name="action" value="delete">Delete</button>
 		</form>
 	<%  } %>
 	<p>Likes : <%=post.numLikes %></p>
+	<% if (post.isDeleted === false) { %>
 	<form action="/posts/<%= post.id %>/likes?_method=PATCH" method="POST">
 		<button type="submit">I Like this</button>
 	</form>
-		
+	<%  } %>
+	
 	<h3>Comments (<%= comments.length %>)</h3>
 	
 	<% if (comments.length === 0) { %>
@@ -44,14 +56,16 @@
 		<% }) %>
 	<% } %>
 	
-	<% if (user) { %>
-		<form action="/posts/<%= post.id %>/comments" method="POST">
-			<textarea name="text" placeholder="Comment text..."></textarea><br>
-			<button type="submit">Submit</button>
-			<button type="reset">Reset</button>
-		</form>
-	<% } else { %>
-		<p><a href="/auth/google">Sign in</a> to comment</p>
-	<% } %>
-		
+	<% if (post.isDeleted === false) { %>
+		<% if (user) { %>
+			<form action="/posts/<%= post.id %>/comments" method="POST">
+				<textarea name="text" placeholder="Comment text..."></textarea><br>
+				<button type="submit">Submit</button>
+				<button type="reset">Reset</button>
+			</form>
+		<% } else { %>
+			<p><a href="/auth/google">Sign in</a> to comment</p>
+		<% } %>
+   <% } %>
+	
 	<%- include('../partials/footer.ejs') %>
