@@ -59,4 +59,19 @@
 		<button type="submit" name="action" value="delete">Delete Selected</button>
 	  </form>
     <% } %>
+	
+	<h4>Deleted Posts</h4>
+	<% if (deletedPosts.length === 0) { %>
+	   <p>You don't have any deleted posts...</p>
+	<% } else { %>
+	  <form action="/posts/managePosts" method="POST">
+	    <% deletedPosts.forEach((p) => { %>
+		  <input type="checkbox" id ="postId" name="posts" value="<%= p.id %>">
+		  <label for="postId"><a href="/posts/<%= p.id %>"><%= p.title %></a></label>
+		  <br>
+	    <% }) %>
+		<button type="submit" name="action" value="restore">Restore Selected</button>
+		<button type="submit" name="action" value="destroy">Destroy Selected</button>
+	  </form>
+    <% } %>
 	<%- include('../partials/footer.ejs') %>

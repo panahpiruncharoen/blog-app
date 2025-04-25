@@ -6,10 +6,10 @@ exports.getUserProfile = async (req, res) => {
 	  res.send("You are not logged in")
 }
 	const userPosts =  await Post.find({ author: req.user })
-	
-	const publishedPosts = await userPosts.filter((p) => { return p.isPublished === true })
-	const draftPosts =  await userPosts.filter((p) => { return p.isPublished === false })
-	res.render("users/profile", { userPosts, publishedPosts, draftPosts, })
+	const publishedPosts = await userPosts.filter((p) => { return  p.isDeleted === false && p.isPublished === true })
+	const draftPosts =  await userPosts.filter((p) => { return p.isDeleted === false && p.isPublished === false })
+	const deletedPosts = await userPosts.filter((p) => { return  p.isDeleted === true })
+	res.render("users/profile", { userPosts, publishedPosts, draftPosts, deletedPosts })
 }
 
 exports.updateUserProfile = async (req, res) => {

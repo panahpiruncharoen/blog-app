@@ -3,7 +3,7 @@ const Comment = require('../models/Comment')
 const User = require('../models/User')
 
 exports.getAllPosts = async (req, res) => {
-	const posts = await Post.find({ isPublished : true })
+	const posts = await Post.find({ isPublished : true , isDeleted: false })
 	res.render("posts/index", { posts})
 }
 
@@ -50,7 +50,8 @@ exports.createNewPost = async (req,res) => {
 		text: text,
 		author: author,
 		numLikes: 0,
-		isPublished: isPublished
+		isPublished: isPublished,
+		isDeleted: false,
 	})
 	
 	res.redirect("/")
@@ -102,11 +103,11 @@ exports.managePosts = async (req, res) => {
 	const action = req.body.action
 	console.log(action, posts)
 	
-	if(action === "delete") {
-	  await posts.forEach(async(postId) => {
-	  await Comment.deleteMany({ postId })
-	  await Post.findByIdAndDelete(postId) 
-	  })
+	if(action === "destroy") {
+	   await posts.forEach(async(postId) => {
+	   await Comment.deleteMany({ postId })
+	   await Post.findByIdAndDelete(postId) 
+	   })
 	} else if (action === "publish") {
 	  await posts.forEach(async(postId) => {
 	  	await Post.findByIdAndUpdate(
@@ -121,7 +122,22 @@ exports.managePosts = async (req, res) => {
 		{$set: { isPublished : false }}
 		)	
 	  })
-	}				
+	} else if (action === "restore") {
+	  await posts.forEach(async(postId) => {
+	  	await Post.findByIdAndUpdate(
+		postId,
+		{$set: { isDeleted : false }}
+		)	
+	  })
+	} else if (action === "delete") {
+	  await posts.forEach(async(postId) => {
+	  	await Post.findByIdAndUpdate(
+		postId,
+		{$set: { isDeleted : true }}
+		)	
+	  })
+	}	
+	
 	
 	res.redirect("/users/profile")
 }
