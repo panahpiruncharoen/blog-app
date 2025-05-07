@@ -21,6 +21,15 @@
 	</form>
 	<% } %>
 	
+	<% if(post.isPublished === false) { %>
+	<form action="/posts/managePosts" method="POST">
+	  <p>This post has been unpublished!</p>
+	  <input type="hidden" name="posts" value="<%= post.id%>">
+	  <input type="hidden" name="destination" value="/posts/<%= post.id %>">
+	  <button type="submit" name="action" value="publish">Publish</button>
+	</form>
+	<% } %>
+	
 	<p>Author: <%= post.author.firstName + " " + post.author.lastName %></p>
 	<p><%= post.text%></p>
 	
