@@ -18,19 +18,23 @@ exports.getNewPostForm = async (req,res) => {
 exports.getOnePost = async (req, res) => {
 	const postId = req.params.postId
 	const post = await Post.findById(postId).populate("author", "firstName lastName")
-	const comments = await Comment.find({ postId }).populate("author", "firstName lastName")
-	console.log(post.author.id)
-	console.log(req.user.id)
+	// console.log(post.author.id)
+	// console.log(req.user.id)
 	
+	if(post.isDeleted || !post.isPublished) {
 	if (!req.user) {
-		res.send("Not logged in")
-		return
-	} else if (post.author.id === !req.user.id) {
-	  res.send("You are not the owner of this post")
-		return
-	}
+	 	res.send("Not logged in")
+	 	return
+	 } else if (post.author.id !== req.user.id) {
+	   res.send("You are not the owner of this post")
+	 	return
+	 }
+   }
+	
+	const comments = await Comment.find({ postId }).populate("author", "firstName lastName")
 	res.render("posts/show", { post, comments })
 }
+
 
 exports.createNewPost = async (req,res) => {
 	console.log(req.body)
