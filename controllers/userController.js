@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const Post = require("../models/Post")
+const Comment = require('../models/Comment')
 
 exports.getUserProfile = async (req, res) => {
 	if (!req.user) {
@@ -9,7 +10,10 @@ exports.getUserProfile = async (req, res) => {
 	const publishedPosts = await userPosts.filter((p) => { return  p.isDeleted === false && p.isPublished === true })
 	const draftPosts =  await userPosts.filter((p) => { return p.isDeleted === false && p.isPublished === false })
 	const deletedPosts = await userPosts.filter((p) => { return  p.isDeleted === true })
-	res.render("users/profile", { userPosts, publishedPosts, draftPosts, deletedPosts })
+	
+	const userComments = await Comment.find({ author: req.user }).populate("postId", "title")
+	console.log(userComments)
+	res.render("users/profile", { userPosts, publishedPosts, draftPosts, deletedPosts, userComments })
 }
 
 exports.updateUserProfile = async (req, res) => {

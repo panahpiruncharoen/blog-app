@@ -74,4 +74,20 @@
 		<button type="submit" name="action" value="destroy">Destroy Selected</button>
 	  </form>
     <% } %>
+	
+	<hr>
+	
+	<h3>My comments</h3>
+	<form action="/comments/manageComments" method="POST">
+	<table>
+		<tr><th></th><th>Post</th><th>Comment</th></tr>	
+		<% userComments.forEach((c) => { %>
+		  <tr><td><input type="checkbox" id ="<%= c.id %>"name="comments" value="<%= c.id %>"></td>
+		  <td><%= c.postId.title %></td>
+		  <td><%= c.text %></td>
+		</tr>			
+		<% }) %>
+	</table>
+		<button type="submit" name="action" value="destroy">Destroy Selected</button>
+  </form>
 	<%- include('../partials/footer.ejs') %>
