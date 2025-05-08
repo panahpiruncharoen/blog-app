@@ -12,7 +12,7 @@ exports.getUserProfile = async (req, res) => {
 	const deletedPosts = await userPosts.filter((p) => { return  p.isDeleted === true })
 	
 	const userComments = await Comment.find({ author: req.user }).populate("postId", "title")
-	console.log(userComments)
+	//console.log(userComments)
 	res.render("users/profile", { userPosts, publishedPosts, draftPosts, deletedPosts, userComments })
 }
 

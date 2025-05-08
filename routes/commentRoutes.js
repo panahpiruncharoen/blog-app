@@ -7,4 +7,7 @@ const Comment = require('../models/Comment')
 // DELETE = delete one post
 router.delete("/:commentId", commentController.deleteOneComment)
 
+//MANAGE COMMENTS
+router.post("/manageComments", commentController.manageComments)
+
 module.exports = router
