@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require("express")
 const methodOverride = require("method-override")
 const connectDB = require('./config/db');  // Import the database connection function
+const path = require('path');
 
 const session = require('express-session');
 const passport = require('passport');
@@ -21,6 +22,7 @@ app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true}))
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({}))
+app.use(express.static(path.join(__dirname, 'public')));
 	
 app.use(session({
   secret: 'your secret',
