@@ -24,8 +24,7 @@
 	<a href="/posts/new">New Post</a><br>
 	
 	<% posts.forEach((p) => { %>
-	
 		<a href="/posts/<%= p.id %>"><%= p.title %></a><br>
 	<% }) %>
-	
+
 	<%- include('../partials/footer.ejs') %>

@@ -20,9 +20,6 @@ exports.updateUserProfile = async (req, res) => {
 if (!req.user) {
 	  res.send("You are not logged in")
 	}
-	//console.log("try to update profile")
-	//console.log(req.body)
-	//console.log(req.user.id)
 	
 	const newUsername = req.body.username
 	const newFirstName = req.body.firstName
