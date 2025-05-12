@@ -31,7 +31,7 @@ exports.getOnePost = async (req, res) => {
 	 }
    }
 	
-	const comments = await Comment.find({ postId }).populate("author", "firstName lastName")
+	const comments = await Comment.find({ postId }).populate("author", "firstName lastName profilePic")
 	res.render("posts/show", { post, comments })
 }
 
