@@ -21,6 +21,7 @@
 	</form>
 	<% } %>
 	
+	<img src="/avatars/<%= post.author.profilePic %>" width="80">
 	<% if(post.isPublished === false) { %>
 	<form action="/posts/managePosts" method="POST">
 	  <p>This post has been unpublished!</p>

@@ -17,7 +17,7 @@ exports.getNewPostForm = async (req,res) => {
 
 exports.getOnePost = async (req, res) => {
 	const postId = req.params.postId
-	const post = await Post.findById(postId).populate("author", "firstName lastName")
+	const post = await Post.findById(postId).populate("author", "firstName lastName profilePic")
 	// console.log(post.author.id)
 	// console.log(req.user.id)
 	
