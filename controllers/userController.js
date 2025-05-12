@@ -40,3 +40,18 @@ if (!req.user) {
 	
 	res.redirect("/users/profile")
 }
+
+exports.updateProfilePic = async (req, res) => {
+if (!req.user) {
+	  res.send("You are not logged in")
+	}
+	
+	const newProfilePic = req.body.profilePic
+	
+	await User.findByIdAndUpdate(
+		req.user.id,
+		{$set: { profilePic: newProfilePic}}
+	)
+	
+	res.redirect("/users/profile")
+}

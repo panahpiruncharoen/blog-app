@@ -10,6 +10,8 @@
 <body>
 	<h1>Bangkok Post | My Profile</h1>
 	
+	<img src="/avatars/<%= user.profilePic %>" width="80">
+	
 	<h3>My Information</h3>
 	
 	<form action="/users/profile?_method=PATCH" method="POST">
@@ -28,10 +30,13 @@
 	
 	<h3>My Avatar</h3>
 	
-	<% avatarFiles.forEach((fname) => { %>
-	  <img src="/avatars/<%= fname %>" width="80">
-	<% }) %>
-
+	<form action="/users/updateProfilePic?_method=PATCH" method="POST">
+		<% avatarFiles.forEach((fname) => { %>
+		  <img src="/avatars/<%= fname %>" width="80">
+		  <input type="radio" name="profilePic" value="<%= fname %>">
+		<% }) %>
+		<button type="submit">Save</button>
+	</form>
 	<hr>
 	
 	<h3>My posts</h3>
