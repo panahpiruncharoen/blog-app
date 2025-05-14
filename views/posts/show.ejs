@@ -44,7 +44,7 @@
 		</form>
 	<%  } %>
 	<p>Likes : <%=post.numLikes %></p>
-	<% if (post.isPublished === true && (post.isDeleted === false)) { %>
+	<% if (user && post.isPublished === true && (post.isDeleted === false)) { %>
 	<form action="/posts/<%= post.id %>/likes?_method=PATCH" method="POST">
 		<button type="submit">I Like this</button>
 	</form>
