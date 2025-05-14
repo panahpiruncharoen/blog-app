@@ -16,6 +16,10 @@ exports.getUserProfile = async (req, res) => {
 	
 	const avatarsPath = path.join(__dirname, '..', 'public', 'avatars');
 	let avatarFiles = await fs.readdir(avatarsPath)
+<<<<<<< HEAD
+=======
+	avatarFiles = avatarFiles.filter(fname => fname !== req.user.profilePic)
+>>>>>>> avatar
 	// console.log(avatarFiles)
 	
 	const userComments = await Comment.find({ author: req.user }).populate("postId", "title")
