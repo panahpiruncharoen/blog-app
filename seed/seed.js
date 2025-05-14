@@ -7,20 +7,14 @@ const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const User = require('../models/User');
 
-const avatarFiles = [
-  'Multiavatar-0a8cfb1aa82ed11bfc.png',
-  'Multiavatar-396dc8e5ad16fda317.png',
-  'Multiavatar-51239ec171822cc676.png',
-  'Multiavatar-566c550b0ace8024e3.png',
-  'Multiavatar-6b13757759fb397340.png',
-  'Multiavatar-7f33866c2bfef17bb9.png',
-  'Multiavatar-9940031e954565d7b3.png',
-  'Multiavatar-c60e71e703bd8dc49f.png',
-  'Multiavatar-d4fea7d358cc2a114b.png',
-  'Multiavatar-fdda1ec08ff1ab10e5.png'
-]
+const path = require('path')
+const fs = require('fs').promises
 
 const seedDB = async () => {
+	//load avata pic file name
+	const avatarsPath = path.join(__dirname, '..', 'public', 'avatars');
+	let avatarFiles = await fs.readdir(avatarsPath)
+
 	const uri = process.env.MONGODB_URI
 	await mongoose.connect(uri, {
         useNewUrlParser: true,
