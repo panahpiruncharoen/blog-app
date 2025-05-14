@@ -7,6 +7,7 @@ const postSchema = new mongoose.Schema({
 	numLikes: Number,
 	isPublished: Boolean,
 	isDeleted: Boolean,
+	likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
 }, { collection: 'posts' }); // Explicitly setting the collection name
 
 const Post = mongoose.model("Post", postSchema);
