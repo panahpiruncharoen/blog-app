@@ -56,6 +56,7 @@ exports.createNewPost = async (req,res) => {
 		numLikes: 0,
 		isPublished: isPublished,
 		isDeleted: false,
+		likeBy: [],
 	})
 	
 	res.redirect("/")
@@ -168,11 +169,21 @@ exports.createComment = async (req,res) => {
 
 exports.updateNumLikes = async (req, res) => {
 	const postId = req.params.postId
+	const action = req.body.action
+	console.log(postId, action)
+
+	const post = await Post.findById(postId)
 	
-	await Post.findByIdAndUpdate(
-		postId,
-		{$inc: { numLikes: 1 }}
-	)
+	if(action === "like" && !post.likedBy.includes(req.user.id)) {
+	   post.likedBy.push(req.user)
+	   post.numLikes += 1
+		await post.save()
+	}
 	
+	if(action === "unlike" && post.likedBy.includes(req.user.id)) {
+	   post.likedBy = post.likedBy.filter(userId => userId.toString() !== req.user.toString)
+	   post.numLikes -= 1
+		await post.save()
+	}
 	res.redirect(`/posts/${postId}`)
 }

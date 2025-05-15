@@ -46,7 +46,11 @@
 	<p>Likes : <%=post.numLikes %></p>
 	<% if (user && post.isPublished === true && (post.isDeleted === false)) { %>
 	<form action="/posts/<%= post.id %>/likes?_method=PATCH" method="POST">
-		<button type="submit">I Like this</button>
+		<% if (!post.likedBy.includes(user.id)) { %>
+			<button type="submit" name="action" value="like">Like</button>
+		<% } else { %>
+			<button type="submit" name="action" value="unlike">Unlike</button>
+		<% } %>
 	</form>
 	<%  } %>
 	
