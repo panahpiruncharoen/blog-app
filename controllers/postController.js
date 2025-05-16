@@ -194,7 +194,7 @@ exports.updateNumLikes = async (req, res) => {
 	}
 	
 	if(action === "unlike" && post.likedBy.includes(req.user.id)) {
-	   post.likedBy = post.likedBy.filter(userId => userId.toString() !== req.user.toString)
+	   post.likedBy = post.likedBy.filter(userId => userId.toString() !== req.user.id.toString())
 	   post.numLikes -= 1
 		await post.save()
 	}
