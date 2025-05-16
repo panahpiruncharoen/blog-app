@@ -17,10 +17,10 @@ exports.getNewPostForm = async (req,res) => {
 
 exports.getOnePost = async (req, res) => {
 	const postId = req.params.postId
-	const post = await Post.findById(postId).populate("author", "firstName lastName profilePic")
+	const post = await Post.findById(postId)//.populate("author", "firstName lastName profilePic")
 											.populate("author", "firstName lastName profilePic")
 											.populate("likedBy" , "profilePic")
-	console.log(post)
+	// console.log(post)
 	// console.log(post.author.id)
 	// console.log(req.user.id)
 	
@@ -34,8 +34,18 @@ exports.getOnePost = async (req, res) => {
 	 }
    }
 	
+	let likedByCurrUser = false
+	post.likedBy.forEach((u) => {
+		// console.log(req.user)
+		// console.log(u)
+		// console.log(req.user.id == u.id)
+		if (req.user.id == u.id) {
+		  likedByCurrUser = true
+	   }
+	})
+	
 	const comments = await Comment.find({ postId }).populate("author", "firstName lastName profilePic")
-	res.render("posts/show", { post, comments })
+	res.render("posts/show", { post, comments, likedByCurrUser})
 }
 
 

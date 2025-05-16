@@ -43,6 +43,7 @@
 			<button type="submit" name="action" value="delete">Delete</button>
 		</form>
 	<%  } %>
+	
 	<p>Likes : <%=post.numLikes %></p>
 	
 	<% post.likedBy.forEach((u) => { %>
@@ -51,7 +52,7 @@
 	
 	<% if (user && post.isPublished === true && (post.isDeleted === false)) { %>
 	<form action="/posts/<%= post.id %>/likes?_method=PATCH" method="POST">
-		<% if (!post.likedBy.includes(user.id)) { %>
+		<% if (!likedByCurrUser) { %>
 			<button type="submit" name="action" value="like">Like</button>
 		<% } else { %>
 			<button type="submit" name="action" value="unlike">Unlike</button>
