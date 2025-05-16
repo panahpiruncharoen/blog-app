@@ -44,6 +44,11 @@
 		</form>
 	<%  } %>
 	<p>Likes : <%=post.numLikes %></p>
+	
+	<% post.likedBy.forEach((u) => { %>
+		<img src="/avatars/<%= u.profilePic %>" width=25>
+	<% }) %>
+	
 	<% if (user && post.isPublished === true && (post.isDeleted === false)) { %>
 	<form action="/posts/<%= post.id %>/likes?_method=PATCH" method="POST">
 		<% if (!post.likedBy.includes(user.id)) { %>
@@ -60,7 +65,7 @@
 		<p>No comments yets</p>
 	<% } else { %>
 		 <% comments.forEach((c) => { %>
-	     <img src="/avatars/<%= c.author.profilePic %>" width="20">
+	     <img src="/avatars/<%= c.author.profilePic %>" width="25">
 			<p><%= c.text %> - <%= c.author.firstName + " " + c.author.lastName %></p>
 				<% if (user && c.author.id === user.id) { %>
 				<form action="/comments/<%= c.id %>?_method=DELETE" method="POST">
