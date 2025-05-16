@@ -28,7 +28,8 @@ const seedDB = async () => {
 	
 	//generate users
 	const users = []
-	for (let i = 0; i <5; i++){
+	
+	for (let i = 0; i < avatarFiles.length -1; i++){
 		const firstName = faker.person.firstName()
 		const lastName = faker.person.lastName()
 		const user = await User.create({
@@ -37,7 +38,7 @@ const seedDB = async () => {
 			firstName: firstName,
 			lastName: lastName,
 			email: firstName + "." + lastName + "@gmail.com",
-			profilePic: avatarFiles[Math.floor(Math.random() * avatarFiles.length)],
+			profilePic: avatarFiles[i],
 		})
 		users.push(user)
 		console.log(user)
@@ -50,21 +51,32 @@ const seedDB = async () => {
 		firstName: "Panah",
 		lastName: "piruncharoen",
 		email: "panahpirun@gmail.com" ,
-	    profilePic: "Multiavatar-566c550b0ace8024e3.png",
+	    profilePic: avatarFiles[avatarFiles.length-1]
 	})
 	users.push(user)
 	console.log(user)
-		
+	//generate post like and comments
 	for (let i = 0; i <10; i++) {
+		//create new post
 		const post = await Post.create({
 			title: faker.book.title(),
 			author: users[Math.floor(Math.random() * users.length)],
 			text: faker.lorem.paragraphs(),
-			numLikes: Math.floor(Math.random() * 100),
+			numLikes: 0,
 			isPublished: true,
 			isDeleted: false,
+			likedBy: [],
 		})
-
+		// create like by user
+		for (let i = 0; i <100; i++) {
+		   const user = users[Math.floor(Math.random() * users.length)]
+		   if(!post.likedBy.includes(user.id)) {
+			  post.likedBy.push(user.id)
+			  post.numLikes += 1
+			  await post.save()
+			}
+		}
+		
 		for (let i = 0; i <5; i++) {
 			await Comment.create({
 				postId: post.id,
