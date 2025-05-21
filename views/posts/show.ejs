@@ -2,91 +2,130 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bangkok post</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bangkok Post</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
+	
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="/">Bangkok Post</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <% if (user) { %>
+            <li class="nav-item"><a class="nav-link" href="/posts/new">New Post</a></li>
+            <li class="nav-item"><a class="nav-link" href="/users/profile">My Profile</a></li>
+            <li class="nav-item"><a class="nav-link" href="/auth/logout">Sign Out</a></li>
+          <% } else { %>
+            <li class="nav-item"><a class="nav-link" href="/auth/google">Sign In</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-<body>
-	<h1>Bangkok Post</h1>
-	
-	<h3><%= post.title%></h3>
-	 
-	<% if(post.isDeleted === true) { %>
-	<form action="/posts/managePosts" method="POST">
-	  <p>This post has been deleted!</p>
-	  <input type="hidden" name="posts" value="<%= post.id%>">
-	  <input type="hidden" name="destination" value="/posts/<%= post.id %>">
-	  <button type="submit" name="action" value="restore">Restore</button>
-	</form>
-	<% } %>
-	
-	<img src="/avatars/<%= post.author.profilePic %>" width="80">
-	<% if(post.isPublished === false) { %>
-	<form action="/posts/managePosts" method="POST">
-	  <p>This post has been unpublished!</p>
-	  <input type="hidden" name="posts" value="<%= post.id%>">
-	  <input type="hidden" name="destination" value="/posts/<%= post.id %>">
-	  <button type="submit" name="action" value="publish">Publish</button>
-	</form>
-	<% } %>
-	
-	<p>Author: <%= post.author.firstName + " " + post.author.lastName %></p>
-	<p><%= post.text%></p>
-	
-	<% if (user && post.author.id === user.id && post.isDeleted === false) { %>
-		<a href="/posts/<%= post.id%>/edit">Edit</a>
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+		   <small class="text-muted"><%= post.author.email %></small>
 
-		<form action="/posts/managePosts" method="POST">
-			<input type="hidden" name="posts" value="<%= post.id%>">
-			<input type="hidden" name="destination" value="/posts/<%= post.id%>">
-			<button type="submit" name="action" value="delete">Delete</button>
-		</form>
-	<%  } %>
+        <% if (post.isDeleted === true) { %>
+          <form action="/posts/managePosts" method="POST" class="mb-3">
+            <p class="text-danger">This post has been deleted!</p>
+            <input type="hidden" name="posts" value="<%= post.id %>">
+            <input type="hidden" name="destination" value="/posts/<%= post.id %>">
+            <button class="btn btn-warning" type="submit" name="action" value="restore">Restore</button>
+          </form>
+        <% } %>
+
+        <div class="d-flex align-items-center mb-3">
+          <img src="/avatars/<%= post.author.profilePic %>" class="rounded-circle me-2" width="50" height="50">
+          <strong>Author:</strong> <%= post.author.firstName + " " + post.author.lastName %>
+		  <!-- <strong>Email:</strong> <span class="text-muted"><%= post.author.firstName + post.author.lastName + "@gmail.com" %></span> -->
+
+        </div>
+
+        <% if (post.isPublished === false) { %>
+          <form action="/posts/managePosts" method="POST" class="mb-3">
+            <p class="text-warning">This post has been unpublished!</p>
+            <input type="hidden" name="posts" value="<%= post.id %>">
+            <input type="hidden" name="destination" value="/posts/<%= post.id %>">
+            <button class="btn btn-success" type="submit" name="action" value="publish">Publish</button>
+          </form>
+        <% } %>
+
+        <p><%= post.text %></p>
+
+        <% if (user && post.author.id === user.id && post.isDeleted === false) { %>
+          <a href="/posts/<%= post.id %>/edit" class="btn btn-outline-primary me-2">Edit</a>
+          <form action="/posts/managePosts" method="POST" class="d-inline">
+            <input type="hidden" name="posts" value="<%= post.id %>">
+            <input type="hidden" name="destination" value="/posts/<%= post.id %>">
+            <button class="btn btn-outline-danger" type="submit" name="action" value="delete">Delete</button>
+          </form>
+        <% } %>
+
+        <p class="mt-3">Likes: <%= post.numLikes %></p>
+        <% post.likedBy.forEach((u) => { %>
+          <img src="/avatars/<%= u.profilePic %>" class="rounded-circle me-1" width="25" height="25">
+        <% }) %>
+
+        <% if (user && post.isPublished === true && post.isDeleted === false) { %>
+          <form action="/posts/<%= post.id %>/likes?_method=PATCH" method="POST" class="mt-2">
+            <% if (!likedByCurrUser) { %>
+              <button class="btn btn-sm btn-outline-danger" type="submit" name="action" value="like">Like</button>
+            <% } else { %>
+              <button class="btn btn-sm btn-outline-danger" type="submit" name="action" value="unlike">Unlike</button>
+            <% } %>
+          </form>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4>Comments (<%= comments.length %>)</h4>
+
+        <% if (comments.length === 0) { %>
+          <p>No comments yet</p>
+        <% } else { %>
+          <% comments.forEach((c) => { %>
+            <div class="d-flex align-items-center mb-2">
+              <img src="/avatars/<%= c.author.profilePic %>" class="rounded-circle me-2" width="30" height="30">
+              <p class="mb-0"><%= c.text %> - <strong><%= c.author.firstName + " " + c.author.lastName %></strong></p>
+            </div>
+            <% if (user && c.author.id === user.id) { %>
+              <form action="/comments/<%= c.id %>?_method=DELETE" method="POST" class="mb-2">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            <% } %>
+            <hr />
+          <% }) %>
+        <% } %>
+
+        <% if (post.isPublished === true && post.isDeleted === false) { %>
+          <% if (user) { %>
+            <form action="/posts/<%= post.id %>/comments" method="POST">
+              <div class="mb-3">
+                <textarea class="form-control" name="text" rows="3" placeholder="Comment text..."></textarea>
+              </div>
+              <button class="btn btn-primary" type="submit">Submit</button>
+              <button class="btn btn-outline-danger" type="reset">Reset</button>
+            </form>
+          <% } else { %>
+            <p><a href="/auth/google">Sign in</a> to comment</p>
+          <% } %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 	
-	<p>Likes : <%=post.numLikes %></p>
-	
-	<% post.likedBy.forEach((u) => { %>
-		<img src="/avatars/<%= u.profilePic %>" width=25>
-	<% }) %>
-	
-	<% if (user && post.isPublished === true && (post.isDeleted === false)) { %>
-	<form action="/posts/<%= post.id %>/likes?_method=PATCH" method="POST">
-		<% if (!likedByCurrUser) { %>
-			<button type="submit" name="action" value="like">Like</button>
-		<% } else { %>
-			<button type="submit" name="action" value="unlike">Unlike</button>
-		<% } %>
-	</form>
-	<%  } %>
-	
-	<h3>Comments (<%= comments.length %>)</h3>
-	
-	<% if (comments.length === 0) { %>
-		<p>No comments yets</p>
-	<% } else { %>
-		 <% comments.forEach((c) => { %>
-	     <img src="/avatars/<%= c.author.profilePic %>" width="25">
-			<p><%= c.text %> - <%= c.author.firstName + " " + c.author.lastName %></p>
-				<% if (user && c.author.id === user.id) { %>
-				<form action="/comments/<%= c.id %>?_method=DELETE" method="POST">
-					<button type="submit">Delete</button>
-				</form>
-				<% } %>
-			<hr>
-		<% }) %>
-	<% } %>
-	
-	<% if (post.isPublished === true && (post.isDeleted === false)) { %>
-		<% if (user) { %>
-			<form action="/posts/<%= post.id %>/comments" method="POST">
-				<textarea name="text" placeholder="Comment text..."></textarea><br>
-				<button type="submit">Submit</button>
-				<button type="reset">Reset</button>
-			</form>
-		<% } else { %>
-			<p><a href="/auth/google">Sign in</a> to comment</p>
-		<% } %>
-   <% } %>
-	
-	<%- include('../partials/footer.ejs') %>
+</html>
