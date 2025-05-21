@@ -32,7 +32,7 @@
 
     <div class="card shadow-sm mb-4">
       <div class="card-body">
-		   <small class="text-muted"><%= post.author.email %></small>
+	  <h2 class="card-title"><%= post.title %></h2>
 
         <% if (post.isDeleted === true) { %>
           <form action="/posts/managePosts" method="POST" class="mb-3">
@@ -46,7 +46,6 @@
         <div class="d-flex align-items-center mb-3">
           <img src="/avatars/<%= post.author.profilePic %>" class="rounded-circle me-2" width="50" height="50">
           <strong>Author:</strong> <%= post.author.firstName + " " + post.author.lastName %>
-		  <!-- <strong>Email:</strong> <span class="text-muted"><%= post.author.firstName + post.author.lastName + "@gmail.com" %></span> -->
 
         </div>
 

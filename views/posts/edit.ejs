@@ -1,20 +1,61 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Post</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Post</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
-	<h1>Edit Post</h1>
-		
-	<form action="/posts/<%= post.id %>?_method=PATCH" method="POST">
-		<input type="text" name="title" value="<%= post.title %>">
-		<textarea name="text"><%= post.text %></textarea>
-		<button type="submit">Save</button>
-		<button type="reset">Reset</button>
-	</form>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Bangkok Post</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <% if (user) { %>
+            <li class="nav-item"><a class="nav-link" href="/posts/new">New Post</a></li>
+            <li class="nav-item"><a class="nav-link" href="/users/profile">My Profile</a></li>
+            <li class="nav-item"><a class="nav-link" href="/auth/logout">Sign Out</a></li>
+          <% } else { %>
+            <li class="nav-item"><a class="nav-link" href="/auth/google">Sign In</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-	<%- include('../partials/footer.ejs') %>
+  <!-- Page Header -->
+  <div class="container mt-5">
+    <h1 class="mb-4">Edit Post</h1>
+
+    <!-- Form -->
+    <form action="/posts/<%= post.id %>?_method=PATCH" method="POST" class="card shadow-sm p-4">
+      <div class="mb-3">
+        <label for="title" class="form-label">Post Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="<%= post.title %>" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="text" class="form-label">Post Content</label>
+        <textarea class="form-control" id="text" name="text" rows="8" required><%= post.text %></textarea>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <button type="reset" class="btn btn-outline-danger">Reset</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+	
+</html>
+	
+
