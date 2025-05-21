@@ -4,18 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Create post</title>
 </head>
 
 <body>
-	<h1>Create Post</h1>
-		
-	<form action="/posts" method="POST">
-		<input type="text" name="title" placeholder="Title"><br>
-		<textarea name="text" placeholder="Post text.."></textarea><br>
-		<button type="submit" name="action" value="draft">Save Draft</button>
-		<button type="submit" name="action" value="publish">Publish</button>
-		<button type="reset">Reset</button>
-	</form>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <div class="container-fluid">
+		<a class="navbar-brand" href="/">Bangkok Post</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+		  <ul class="navbar-nav ms-auto">
+		    <li class="nav-item">
+			  <a class="nav-link" href="/">Home</a>
+			</li>
+		  <% if (user) { %>
+			<li class="nav-item">
+			  <a class="nav-link" href="/posts/new">New Post</a>
+			<li class="nav-item">
+			  <a class="nav-link" href="/users/profile">My profile</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="/auth/logout">Sign Out</a>
+		    </li>
+			<% } else { %>
+			<li class="nav-item">
+			  <a class="nav-link" href="/auth/google">Sign In</a>
+		    </li>
+			<% } %>
+		  </ul>
+		</div>
+	  </div>
+	</nav>
+	
+	<div class="container mt-5">
+      <h1 class="mb-4">Create Post</h1>
 
-	<%- include('../partials/footer.ejs') %>
+	  <form action="/posts" method="POST" class="row g-3">
+		<div class="col-12">
+		  <label for="title" class="form-label">Title</label>
+		  <input type="text" name="title" id="title" class="form-control" placeholder="Enter post title" required>
+		</div>
+
+		<div class="col-12">
+		  <label for="text" class="form-label">Post Text</label>
+		  <textarea name="text" id="text" class="form-control" rows="8" placeholder="Write your post..." required></textarea>
+		</div>
+
+		<div class="col-12">
+		  <button type="submit" name="action" value="draft" class="btn btn-secondary me-2">Save Draft</button>
+		  <button type="submit" name="action" value="publish" class="btn btn-primary me-2">Publish</button>
+		  <button type="reset" class="btn btn-outline-danger">Reset</button>
+		</div>
+	  </form>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+	
+</html>
