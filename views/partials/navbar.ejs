@@ -18,7 +18,12 @@
 			<li class="nav-item">
 			  <a class="nav-link" href="/auth/logout">Sign Out</a>
 		    </li>
-			<% } else { %>
+			<li class="nav-item ms-2">
+             <a href="/users/profile">
+                <img src="/avatars/<%= user.profilePic %>" alt="Profile" class="rounded-circle" width="36" height="36" style="object-fit: cover; border: 2px solid white;">
+            </a>
+         </li>
+		<% } else { %>
 			<li class="nav-item">
 			  <a class="nav-link" href="/auth/google">Sign In</a>
 		    </li>
