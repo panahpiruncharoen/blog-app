@@ -56,3 +56,13 @@ if (!req.user) {
 	
 	res.redirect("/users/profile")
 }
+
+exports.getPublicProfile = async (req, res) => {
+	const userId = req.params.userId
+	const targetUser = await User.findById(userId)
+	
+	const userPosts = await Post.find({ author: targetUser })
+	const publishedPosts = await userPosts.filter((p) => { return  p.isDeleted === false && p.isPublished === true })
+	
+	res.render("users/publicProfile", { targetUser, publishedPosts })
+}

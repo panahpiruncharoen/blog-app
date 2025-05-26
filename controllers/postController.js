@@ -47,7 +47,6 @@ exports.getOnePost = async (req, res) => {
 	res.render("posts/show", { post, comments, likedByCurrUser})
 }
 
-
 exports.createNewPost = async (req,res) => {
 	console.log(req.body)
 	const title = req.body.title
