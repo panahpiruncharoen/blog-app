@@ -19,7 +19,7 @@ exports.getOnePost = async (req, res) => {
 	const postId = req.params.postId
 	const post = await Post.findById(postId).populate("author", "firstName lastName profilePic email")
 											.populate("likedBy" , "profilePic")
-	// console.log(post)
+	//console.log(post)
 	// console.log(post.author.id)
 	// console.log(req.user.id)
 	
