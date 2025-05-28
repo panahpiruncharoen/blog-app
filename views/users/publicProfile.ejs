@@ -10,10 +10,36 @@
 
 <body>
   <%- include('../partials/navbar') %>
-	
-  <%= targetUser %>
-	<hr>
-  <%= publishedPosts %>
+  <div class="container mt-5">
+    <!-- Section 1: User Info -->
+    <div class="row align-items-center mb-5">
+      <div class="col-auto">
+        <img src="/avatars/<%= targetUser.profilePic %>" class="rounded-circle border" width="100" height="100" alt="Profile Picture" style="object-fit: cover;">
+      </div>
+      <div class="col">
+        <h2 class="mb-1"><%= targetUser.firstName %> <%= targetUser.lastName %></h2>
+        <p class="mb-0 text-muted">@<%= targetUser.username %></p>
+        <p class="mb-0 text-muted"><%= targetUser.email %></p>
+      </div>
+    </div>
+	  
+	<!-- Section 2: Published Posts -->
+    <h3 class="mb-4">Published Posts</h3>
+
+    <% if (publishedPosts.length === 0) { %>
+      <p class="text-muted">This user hasn’t published any posts yet.</p>
+    <% } else { %>
+      <div class="list-group">
+        <% publishedPosts.forEach(post => { %>
+          <a href="/posts/<%= post._id %>" class="list-group-item list-group-item-action">
+            <h5 class="mb-1"><%= post.title %></h5>
+            <p class="mb-1 text-muted"><%= post.text.length > 100 ? post.text.substring(0, 100) + '...' : post.text %></p>
+            <small><%= post.numLikes %> like<%= post.numLikes !== 1 ? 's' : '' %></small>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
 	
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
