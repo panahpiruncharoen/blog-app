@@ -56,36 +56,38 @@ const seedDB = async () => {
 	users.push(user)
 	console.log(user)
 	//generate post like and comments
-	for (let i = 0; i <10; i++) {
-		//create new post
-		const post = await Post.create({
-			title: faker.book.title(),
-			author: users[Math.floor(Math.random() * users.length)],
-			text: faker.lorem.paragraphs(),
-			numLikes: 0,
-			isPublished: true,
-			isDeleted: false,
-			likedBy: [],
-		})
-		// create like by user
-		for (let i = 0; i <100; i++) {
-		   const user = users[Math.floor(Math.random() * users.length)]
-		   if(!post.likedBy.includes(user.id)) {
-			  post.likedBy.push(user.id)
-			  post.numLikes += 1
-			  await post.save()
-			}
-		}
-		
-		for (let i = 0; i <5; i++) {
-			await Comment.create({
-				postId: post.id,
+	users.forEach(async (u) => {
+		const numPosts = Math.floor(Math.random() * 6)
+		for (let i = 0; i < numPosts; i++) {
+			//create new post
+			const post = await Post.create({
+				title: faker.book.title(),
 				author: users[Math.floor(Math.random() * users.length)],
 				text: faker.lorem.paragraphs(),
+				numLikes: 0,
+				isPublished: true,
+				isDeleted: false,
+				likedBy: [],
 			})
- 		}
-	}
-
+			// create like by user
+			for (let i = 0; i <100; i++) {
+			   const user = users[Math.floor(Math.random() * users.length)]
+			   if(!post.likedBy.includes(user.id)) {
+				  post.likedBy.push(user.id)
+				  post.numLikes += 1
+				  await post.save()
+				}
+			}
+			const numComments = Math.floor(Math.random() * 9) + 2
+			for (let i = 0; i < numComments; i++) {
+				await Comment.create({
+					postId: post.id,
+					author: users[Math.floor(Math.random() * users.length)],
+					text: faker.lorem.paragraphs(),
+				})
+			}
+		}
+	})
 	
 	mongoose.connection.close()
 }
