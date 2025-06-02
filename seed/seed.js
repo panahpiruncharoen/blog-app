@@ -56,7 +56,7 @@ const seedDB = async () => {
 	users.push(user)
 	console.log(user)
 	//generate post like and comments
-	users.forEach(async (u) => {
+	for (const u of users) {
 		const numPosts = Math.floor(Math.random() * 6)
 		for (let i = 0; i < numPosts; i++) {
 			//create new post
@@ -87,7 +87,7 @@ const seedDB = async () => {
 				})
 			}
 		}
-	})
+	}
 	
 	mongoose.connection.close()
 }
