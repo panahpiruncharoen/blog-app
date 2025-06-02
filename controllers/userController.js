@@ -33,10 +33,11 @@ if (!req.user) {
 	const newFirstName = req.body.firstName
 	const newLastName = req.body.lastName
 	const newEmail= req.body.email
-	
+	const newCity = req.body.city
+	const newCountry = req.body.country
 	await User.findByIdAndUpdate(
 		req.user.id,
-		{$set: {username: newUsername, firstName: newFirstName, lastName: newLastName, email: newEmail}}
+		{$set: {username: newUsername, firstName: newFirstName, lastName: newLastName, email: newEmail, city: newCity, country: newCountry }} 
 	)
 	
 	res.redirect("/users/profile")

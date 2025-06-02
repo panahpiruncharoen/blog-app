@@ -11,6 +11,8 @@ const userSchema = new mongoose.Schema({
 	lastName: String,
 	email: String,
 	profilePic: String,
+	city: String,
+	country: String,
 }, { collection: 'users' }); // Explicitly setting the collection name
 
 const User = mongoose.model("User", userSchema);
