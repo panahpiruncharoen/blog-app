@@ -1,14 +1,14 @@
 require('dotenv').config()
 
+const path = require('path')
+const fs = require('fs').promises
+
 const { faker } = require("@faker-js/faker")
 const mongoose = require('mongoose');
 
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 const User = require('../models/User');
-
-const path = require('path')
-const fs = require('fs').promises
 
 const seedDB = async () => {
 	//load avata pic file name
