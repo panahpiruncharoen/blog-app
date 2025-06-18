@@ -13,7 +13,7 @@ const User = require('../models/User');
 const seedDB = async () => {
 	//load avata pic file name
 	const avatarsPath = path.join(__dirname, '..', 'public', 'avatars');
-	let avatarFiles = await fs.readdir(avatarsPath)
+	const avatarFiles = await fs.readdir(avatarsPath)
 
 	const uri = process.env.MONGODB_URI
 	await mongoose.connect(uri, {

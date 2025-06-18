@@ -21,21 +21,42 @@ const disconnectDB = async () => {
   await mongoose.disconnect()
 }
 
+const clearDB = async ()  => {
+	await Comment.deleteMany({})
+	await Post.deleteMany({})
+	await User.deleteMany({})
+}     
 const createUsers = async (numUsers) => {
+  const avatarsPath = path.join(__dirname, '..', 'public', 'avatars');
+  const avatarFiles = await fs.readdir(avatarsPath)
+	
   console.time("Create Users")
   const userPromises = Array.from({ length: numUsers }).map(() => {
     const firstName = faker.person.firstName()
 	const lastName = faker.person.lastName()
 	return User.create({
+	   googleId: Math.floor(Math.random() * 1000000000000),
 	   username: firstName + lastName,
 	   password: "1111",
 	   firstName: firstName,
 	   lastName: lastName,
        email: firstName + "." + lastName + "@gmail.com",
-	   profilePic: "default.png",
+	   profilePic: avatarFiles[Math.floor(Math.random() * avatarFiles.length)],
 	 })
   })
   const users = await Promise.all(userPromises)
+  
+  const user = await User.create({
+	googleId: "109407193493067603310",
+	username: "PanahPiruncharoen",
+	password: "1111",
+	firstName: "Panah",
+	lastName: "piruncharoen",
+	email: "panahpirun@gmail.com" ,
+	 profilePic: avatarFiles[avatarFiles.length-1]
+  })
+  users.push(user)
+	
   console.timeEnd("Create Users")
   console.log(`${users.length} posts created`)
   return users
@@ -88,8 +109,9 @@ const createComments = async (minComments, maxComments, users, posts) => {
 
 const run = async () => {
   await connectDB()
-  const users = await createUsers(100)
-  const posts = await createPosts(3, 8, users)
+	await clearDB()
+  const users = await createUsers(50)
+  const posts = await createPosts(3, 6, users)
   const comments = await createComments(3, 6, users, posts)
   await disconnectDB()
 }
