@@ -13,6 +13,7 @@ const postRoutes = require('./routes/postRoutes')
 const commentRoutes = require('./routes/commentRoutes')
 const userRoutes = require('./routes/userRoutes')
 const authRoutes = require('./routes/authRoutes')
+const searchRoutes = require('./routes/searchRoutes')
 
 const app = express()
 connectDB()
@@ -46,7 +47,7 @@ app.use("/posts", postRoutes)
 app.use("/comments", commentRoutes)
 app.use("/users", userRoutes)
 app.use("/auth", authRoutes)
-
+app.use("/search", searchRoutes)
 
 app.listen(3000, () => {
 	console.log("SEVER IS RUNNING")
