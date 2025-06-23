@@ -107,12 +107,38 @@ const createComments = async (minComments, maxComments, users, posts) => {
   return comments
 }
 
+const createLikes = async (minLikes, maxLikes, users, posts) => { 
+  console.time("Create Likes") 
+  const LikePromises = [] 
+  for (const p of posts) { 
+	const numLikes = Math.floor(Math.random() * (maxLikes - minLikes + 1)) + minLikes
+	
+  for (let i = users.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [users[i], users[j]] = [users[j], users[i]];
+  }
+	  
+	for (let i = 0; i < numLikes; i++) { 
+	   p.likedBy.push(users[i])
+	   p.numLikes += 1
+	}
+	  
+	   const like = p.save()
+	   LikePromises.push(like) 
+	} 
+  const likes = await Promise.all(LikePromises) 
+  console.timeEnd("Create Likes") 
+  console.log(`${likes.length} likes created`) 
+  return likes
+}
+
 const run = async () => {
   await connectDB()
 	await clearDB()
   const users = await createUsers(50)
   const posts = await createPosts(3, 6, users)
   const comments = await createComments(3, 6, users, posts)
+  const likes = await createLikes(3, 6, users, posts)
   await disconnectDB()
 }
 
