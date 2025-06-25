@@ -15,7 +15,7 @@ exports.searchUserOrPost = async (req, res) => {
 		  { firstName: { $regex: query, $options: "i" }} ,
 		  { lastName: { $regex: query, $options: "i" }} ,
 		]
-	}).select("_id firstName lastName username")
+	}).select("_id firstName lastName username profilePic")
 	console.log(userResult)
 	
 	res.render("search/postOrUser", { postResult, userResult })

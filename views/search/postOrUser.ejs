@@ -2,26 +2,57 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Bangkok post</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <title>Bangkok Post</title>
 </head>
 
 <body>
-	<%- include('../partials/navbar') %>
-	
-	<h3>Posts</h3>
-	<% for (const p of postResult) { %>
-		<a href ="/posts/<%= p.id %>"><%= p.title %></a><br>
-	<% } %>
-	
-	<h3>Users</h3>
-	<% for (const u of userResult) { %>
-		<a href="/users/<%= u.id %>"><%= u.firstName %> <%= u.lastName %> (<%= u.username %>)</a><br>
-	<% } %>
+  <%- include('../partials/navbar') %>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="container mt-5">
+  <h3 class="mb-4">Posts</h3>
+  <% if (postResult.length === 0) { %>
+    <div class="alert alert-warning">No posts found.</div>
+  <% } else { %>
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+      <% for (const p of postResult) { %>
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="/posts/<%= p.id %>" class="text-decoration-none text-dark">
+                  <%= p.title %>
+                </a>
+              </h5>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  <% } %>
+
+  <h3 class="mt-5 mb-4">Users</h3>
+  <% if (userResult.length === 0) { %>
+    <div class="alert alert-warning">No users found.</div>
+  <% } else { %>
+    <div class="list-group">
+      <% for (const u of userResult) { %>
+        <a href="/users/<%= u.id %>" class="list-group-item list-group-item-action d-flex align-items-center">
+          <img src="/avatars/<%= u.profilePic %>" alt="avatar" class="rounded-circle me-3 border" width="48" height="48" style="object-fit: cover;">
+          <div>
+            <div><strong><%= u.firstName %> <%= u.lastName %></strong></div>
+            <div class="text-muted">@<%= u.username %></div>
+          </div>
+        </a>
+      <% } %>
+    </div>
+  <% } %>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-	
+
 </html>
