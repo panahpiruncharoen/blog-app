@@ -97,6 +97,8 @@ const createComments = async (minComments, maxComments, users, posts) => {
 		postId: p.id,
 		author: users[Math.floor(Math.random() * users.length)],
 		text: faker.lorem.sentence(),
+		numLikes: 0,
+		likeBy: [],
 	   })
 	  commentPromises.push(comment)
 	}

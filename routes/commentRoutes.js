@@ -10,4 +10,6 @@ router.delete("/:commentId", commentController.deleteOneComment)
 //MANAGE COMMENTS
 router.post("/manageComments", commentController.manageComments)
 
+router.patch("/:commentId/likes", commentController.updateNumLikes)
+
 module.exports = router

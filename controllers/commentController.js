@@ -10,7 +10,7 @@ exports.manageComments = async (req, res) => {
 		
 	const action = req.body.action
 	const destination = req.body.destination
-	console.log(action, comments, destination)
+	//console.log(action, comments, destination)
 	
 	if(action === "destroy") {
 	   await comments.forEach(async(commentId) => {
@@ -58,7 +58,7 @@ exports.manageComments = async (req, res) => {
 exports.deleteOneComment = async (req, res) => {
 	const commentId = req.params.commentId
 	const deletedComment = await Comment.findByIdAndDelete(commentId) 
-	console.log(deletedComment)
+	// console.log(deletedComment)
 	res.redirect(`/posts/${deletedComment.postId}`)
 }
 
@@ -70,7 +70,7 @@ exports.managePosts = async (req, res) => {
 		
 	const action = req.body.action
 	const destination = req.body.destination
-	console.log(action, posts, destination)
+	//console.log(action, posts, destination)
 	
 	if(action === "destroy") {
 	   await posts.forEach(async(postId) => {
@@ -114,4 +114,26 @@ exports.managePosts = async (req, res) => {
 	
 	
 	res.redirect("/users/profile")
+}
+
+exports.updateNumLikes = async (req, res) => {
+	const commentId = req.params.commentId
+	const action = req.body.action
+	console.log(commentId, action)
+
+	const comment = await Comment.findById(commentId)
+	
+	 if(action === "like" && !comment.likedBy.includes(req.user.id)) {
+	    comment.likedBy.push(req.user)
+	    comment.numLikes += 1
+	 	await comment.save()
+	 }
+	
+	 if(action === "unlike" && comment.likedBy.includes(req.user.id)) {
+	    comment.likedBy = comment.likedBy.filter(userId => userId.toString() !== req.user.id.toString())
+	    comment.numLikes -= 1
+	 	await comment.save()
+	 }
+	
+	res.redirect(`/posts/${comment.postId}`)
 }

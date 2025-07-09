@@ -89,6 +89,16 @@
               <img src="/avatars/<%= c.author.profilePic %>" class="rounded-circle me-2" width="30" height="30">
               <p class="mb-0"><%= c.text %> - <a href="/users/<%= c.author.id %>"><strong><%= c.author.firstName + " " + c.author.lastName %></strong></a></p>
             </div>
+		    <% if (user && post.isPublished === true && post.isDeleted === false) { %>
+			  <form action="/comments/<%= c.id %>/likes?_method=PATCH" method="POST" class="mt-2">
+			<p><%= c.likeBy %></p>
+				<% if (!c.likedBy.includes(user.id)) { %>
+				  <button class="btn btn-sm btn-outline-danger" type="submit" name="action" value="like">Like</button>
+				<% } else { %>
+				  <button class="btn btn-sm btn-outline-danger" type="submit" name="action" value="unlike">Unlike</button>
+				<% } %>
+			  </form>
+			<% } %>
             <% if (user && c.author.id === user.id) { %>
               <form action="/comments/<%= c.id %>?_method=DELETE" method="POST" class="mb-2">
                 <button class="btn btn-sm btn-outline-danger">Delete</button>

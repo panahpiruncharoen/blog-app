@@ -44,11 +44,12 @@ exports.getOnePost = async (req, res) => {
 	})
 	
 	const comments = await Comment.find({ postId }).populate("author", "firstName lastName profilePic")
+	//console.log(comments)
 	res.render("posts/show", { post, comments, likedByCurrUser})
 }
 
 exports.createNewPost = async (req,res) => {
-	console.log(req.body)
+	//console.log(req.body)
 	const title = req.body.title
 	const author = req.user.id
 	const text = req.body.text
@@ -102,7 +103,7 @@ exports.deleteOnePost = async (req, res) => {
 
 exports.deleteManyPosts = async (req, res) => {
 	const posts = req.body.posts
-	console.log(posts)
+	//console.log(posts)
 	await posts.forEach(async(postId) => {
 	  await Comment.deleteMany({ postId })
 	  await Post.findByIdAndDelete(postId) 
@@ -118,7 +119,7 @@ exports.managePosts = async (req, res) => {
 		
 	const action = req.body.action
 	const destination = req.body.destination
-	console.log(action, posts, destination)
+	//console.log(action, posts, destination)
 	
 	if(action === "destroy") {
 	   await posts.forEach(async(postId) => {
