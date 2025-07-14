@@ -67,3 +67,17 @@ exports.getPublicProfile = async (req, res) => {
 	
 	res.render("users/publicProfile", { targetUser, publishedPosts })
 }
+
+exports.uploadProfilePic = async (req, res) => {
+	const userId = req.user.id
+	const filename = req.file.filename;
+	
+	console.log(userId, filename)
+	console.log(req.user.profilePic)
+	
+	await User.findByIdAndUpdate(userId, {
+		profilePic: filename
+	});
+
+	res.redirect('/users/profile');
+};
