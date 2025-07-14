@@ -41,7 +41,7 @@ const createUsers = async (numUsers) => {
 	   firstName: firstName,
 	   lastName: lastName,
        email: firstName + "." + lastName + "@gmail.com",
-	   profilePic: avatarFiles[Math.floor(Math.random() * avatarFiles.length)],
+	   profilePic: "/avatars/" + avatarFiles[Math.floor(Math.random() * avatarFiles.length)],
 	 })
   })
   const users = await Promise.all(userPromises)
@@ -53,7 +53,7 @@ const createUsers = async (numUsers) => {
 	firstName: "Panah",
 	lastName: "piruncharoen",
 	email: "panahpirun@gmail.com" ,
-	 profilePic: avatarFiles[avatarFiles.length-1]
+	 profilePic: "/avatars/" + avatarFiles[avatarFiles.length-1]
   })
   users.push(user)
 	
