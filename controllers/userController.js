@@ -52,7 +52,7 @@ if (!req.user) {
 	
 	await User.findByIdAndUpdate(
 		req.user.id,
-		{$set: { profilePic: newProfilePic}}
+		{$set: { profilePic: "/avatars/" + newProfilePic}}
 	)
 	
 	res.redirect("/users/profile")
@@ -76,7 +76,7 @@ exports.uploadProfilePic = async (req, res) => {
 	console.log(req.user.profilePic)
 	
 	await User.findByIdAndUpdate(userId, {
-		profilePic: filename
+		profilePic: "/custom-avatars/" + filename
 	});
 
 	res.redirect('/users/profile');

@@ -26,7 +26,7 @@
         <% } %>
 
        <div class="d-flex align-items-center mb-3">
-		  <img src="/avatars/<%= post.author.profilePic %>" class="rounded-circle me-3" width="50" height="50" alt="Profile">
+		  <img src="<%= post.author.profilePic %>" class="rounded-circle me-3" width="50" height="50" alt="Profile">
 		  <div>
 			<p class="mb-1">
 				<strong>Author:</strong> <a href="/users/<%= post.author.id %>"><%= post.author.firstName + " " + post.author.lastName %></a>
@@ -61,7 +61,7 @@
         <p class="mt-3">Likes: <%= post.numLikes %></p>
 		  <% post.likedBy.forEach((u) => { %>
 		  <a href="/users/<%= u.id%>">
-			  <img src="/avatars/<%= u.profilePic %>" class="rounded-circle me-1" width="25" height="25">
+			  <img src="<%= u.profilePic %>" class="rounded-circle me-1" width="25" height="25">
 		  </a>
         <% }) %>
 
@@ -86,7 +86,7 @@
         <% } else { %>
           <% comments.forEach((c) => { %>
             <div class="d-flex align-items-center mb-2">
-              <img src="/avatars/<%= c.author.profilePic %>" class="rounded-circle me-2" width="30" height="30">
+              <img src="<%= c.author.profilePic %>" class="rounded-circle me-2" width="30" height="30">
               <p class="mb-0"><%= c.text %> - <a href="/users/<%= c.author.id %>"><strong><%= c.author.firstName + " " + c.author.lastName %></strong></a></p>
             </div>
 		    <% if (user && post.isPublished === true && post.isDeleted === false) { %>

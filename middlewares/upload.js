@@ -4,7 +4,7 @@ const path = require('path');
 // Set storage location and filename
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../public/avatars'));
+    cb(null, path.join(__dirname, '../public/custom-avatars'));
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
