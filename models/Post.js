@@ -4,6 +4,7 @@ const postSchema = new mongoose.Schema({
     title: String,
 	author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     text: String,
+	image: String,
 	numLikes: Number,
 	isPublished: Boolean,
 	isDeleted: Boolean,

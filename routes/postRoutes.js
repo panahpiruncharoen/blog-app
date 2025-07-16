@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const upload = require('../middlewares/postImageUpload');
 
 const postController = require('../controllers/postController.js')
 
@@ -9,8 +10,12 @@ router.get("/", postController.getAllPosts)
 // NEW - show new post form
 router.get("/new", postController.getNewPostForm)
 
+
 // CREATE - creates a new post
-router.post("/", postController.createNewPost)
+router.post("/", upload.single('postPic'),postController.createNewPost)
+
+// // CREATE - creates a new post
+// router.post("/", postController.createNewPost)
 
 // SHOW - show one post
 router.get("/:postId", postController.getOnePost)

@@ -14,7 +14,7 @@
 	<div class="container mt-5">
       <h1 class="mb-4">Create Post</h1>
 
-	  <form action="/posts" method="POST" class="card shadow-sm p-4">
+	  <form action="/posts" method="POST" class="card shadow-sm p-4" enctype="multipart/form-data">>
 		<div class="mb-3">
 		  <label for="title" class="form-label">Title</label>
 		  <input type="text" name="title" id="title" class="form-control" placeholder="Enter post title" required>
@@ -24,7 +24,9 @@
 		  <label for="text" class="form-label">Post Text</label>
 		  <textarea name="text" id="text" class="form-control" rows="8" placeholder="Write your post..." required></textarea>
 		</div>
-
+		
+		  <input type="file" name="postPic" accept="image/*" required>
+		  
 		<div class="d-flex gap-2">
 		  <button type="submit" name="action" value="draft" class="btn btn-secondary">Save Draft</button>
 		  <button type="submit" name="action" value="publish" class="btn btn-primary">Publish</button>
@@ -32,6 +34,12 @@
 		</div>
 	  </form>
 	</div>
+	
+	<!-- <form action="/users/upload-profile-pic" method="POST" enctype="multipart/form-data">
+	  <input type="file" name="profilePic" accept="image/*" required />
+	  <button type="submit">Upload</button>
+	</form> -->
+
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

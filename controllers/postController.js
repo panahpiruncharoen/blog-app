@@ -54,7 +54,8 @@ exports.createNewPost = async (req,res) => {
 	const author = req.user.id
 	const text = req.body.text
 	const isPublished = req.body.action === "publish" ? true : false
-	
+	const filename = req.file.filename;
+	console.log(filename)
 	
 	// if (req.body.action === "publish") {
 	//    isPublished = true
@@ -63,8 +64,10 @@ exports.createNewPost = async (req,res) => {
 	// }
 	const newPost = await Post.create({
 		title: title,
-		text: text,
 		author: author,
+		text: text,
+		image: "/post-images/" + filename,
+		profilePic: "/post-images/" + filename,
 		numLikes: 0,
 		isPublished: isPublished,
 		isDeleted: false,
