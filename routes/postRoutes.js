@@ -12,7 +12,7 @@ router.get("/new", postController.getNewPostForm)
 
 
 // CREATE - creates a new post
-router.post("/", upload.single('postPic'),postController.createNewPost)
+router.post("/", upload.single('postPic'), postController.createNewPost)
 
 // // CREATE - creates a new post
 // router.post("/", postController.createNewPost)
@@ -24,7 +24,7 @@ router.get("/:postId", postController.getOnePost)
 router.get("/:postId/edit", postController.getEditPostForm)
 
 // UPDATE - updates one post
-router.patch("/:postId", postController.updatePost)
+router.patch("/:postId", upload.single('postPic'), postController.updatePost)
 
 // DELETE MANY = delete many post
 router.delete("/deleteMany", postController.deleteManyPosts)

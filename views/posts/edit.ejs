@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,7 @@
   <div class="container mt-5">
     <h1 class="mb-4">Edit Post</h1>
 
-    <form action="/posts/<%= post.id %>?_method=PATCH" method="POST" class="card shadow-sm p-4">
+    <form action="/posts/<%= post.id %>?_method=PATCH" method="POST" enctype="multipart/form-data"class="card shadow-sm p-4">
       <div class="mb-3">
         <label for="title" class="form-label">Post Title</label>
         <input type="text" class="form-control" id="title" name="title" value="<%= post.title %>" required>
@@ -23,7 +22,10 @@
         <label for="text" class="form-label">Post Content</label>
         <textarea class="form-control" id="text" name="text" rows="8" required><%= post.text %></textarea>
       </div>
-
+	  <% if (post.image) { %>
+		<img src="<%= post.image %>" class="img-fluid w-50 rounded mb-3 " alt="Post Image">
+	  <%} %>
+	  <input type="file" name="postPic" accept="image/*" required>
       <div class="d-flex gap-2">
         <button type="submit" class="btn btn-primary">Save Changes</button>
         <button type="reset" class="btn btn-outline-danger">Reset</button>

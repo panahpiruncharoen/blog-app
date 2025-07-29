@@ -54,7 +54,7 @@ exports.createNewPost = async (req,res) => {
 	const author = req.user.id
 	const text = req.body.text
 	const isPublished = req.body.action === "publish" ? true : false
-	const filename = req.file.filename;
+	const filename = req.file.filename
 	console.log(filename)
 	
 	// if (req.body.action === "publish") {
@@ -88,10 +88,12 @@ exports.updatePost = async (req, res) => {
 	const postId = req.params.postId
 	const newTitle = req.body.title
 	const newText = req.body.text
+	console.log(req.file)
+	const filename = req.file.filename
 	
 	await Post.findByIdAndUpdate(
 		postId,
-		{$set: {title: newTitle, text: newText}}
+		{$set: {title: newTitle, text: newText, image: "/post-images/" + filename}}
 	)
 	
 	res.redirect(`/posts/${postId}`)

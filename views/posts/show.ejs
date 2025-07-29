@@ -47,10 +47,12 @@
           </form>
         <% } %>
 		  
-		<img src="<%= post.image %>" class="img-fluid rounded mb-3" alt="Post Image">
-
+		<% if (post.image) { %>
+			<img src="<%= post.image %>" class="img-fluid w-50 rounded mb-3 " alt="Post Image">
+		<%} %>
+		  
         <p><%= post.text %></p>
-
+		
         <% if (user && post.author.id === user.id && post.isDeleted === false) { %>
           <a href="/posts/<%= post.id %>/edit" class="btn btn-outline-primary me-2">Edit</a>
           <form action="/posts/managePosts" method="POST" class="d-inline">
